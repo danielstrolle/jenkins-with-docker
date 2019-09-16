@@ -4,7 +4,9 @@ USER root
 
  # setup chrome sources
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
-  echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list
+  echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list && \
+  apt-get update && \
+  apt-get install -y google-chrome-stable xvfb
 
  # Install the latest Docker CE binaries
 RUN apt-get update && \
@@ -13,7 +15,6 @@ RUN apt-get update && \
       curl \
       gnupg2 \
       software-properties-common && \
-      google-chrome-stable xvfb && \
     curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg > /tmp/dkey; apt-key add /tmp/dkey && \
     add-apt-repository \
       "deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") \
